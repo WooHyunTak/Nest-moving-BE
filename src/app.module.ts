@@ -15,6 +15,8 @@ import { JwtStrategy } from './common/strategies/jwt.strategy';
 import { CustomerModule } from './customer/customer.module';
 import { ConfirmedQuoteModule } from './confirmed-quote/confirmed-quote.module';
 import { ReviewModule } from './review/review.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { OauthModule } from './oauth/oauth.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { ReviewModule } from './review/review.module';
       secret: env.JWT_SECRET ?? 'secret',
       signOptions: { expiresIn: '1d' },
     }),
+    ScheduleModule.forRoot(),
     MovingRequestModule,
     MoverModule,
     CommonModule,
@@ -33,6 +36,7 @@ import { ReviewModule } from './review/review.module';
     CustomerModule,
     ConfirmedQuoteModule,
     ReviewModule,
+    OauthModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

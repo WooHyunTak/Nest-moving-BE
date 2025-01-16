@@ -31,7 +31,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(process.env.PORT ?? 3000, () =>
-    console.log(`SERVER START ${process.env.PORT ?? 3000}`),
+    console.log(
+      `SERVER START ${process.env.PORT ?? 3000} RUNNING ${process.env.RUN_CONDITION}`,
+    ),
   );
 }
 bootstrap();

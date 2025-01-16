@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from '../user/user.repository';
 import bcrypt from 'bcrypt';
+import { SignupDto } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,5 +21,10 @@ export class AuthService {
     const { password: currentPassword, ...userWithoutPassword } = user;
 
     return userWithoutPassword;
+  }
+
+  async signup(signupDto: SignupDto, userType: string) {
+    const user = await this.userRepository.createUser(signupDto, userType);
+    return user;
   }
 }

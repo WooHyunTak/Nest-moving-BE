@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CustomerDto } from './dto/customer.dto';
 import { MoverDto } from './dto/mover.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
+import { SignupDto } from 'src/auth/dto/signup.dto';
 
 @Injectable()
 export class UserRepository {
@@ -57,7 +57,7 @@ export class UserRepository {
     });
   };
 
-  createUser = (user: User, userType: string) => {
+  createUser = (user: SignupDto, userType: string) => {
     return this.prismaClient.user.create({
       data: {
         ...user,

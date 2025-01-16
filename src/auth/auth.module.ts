@@ -10,6 +10,7 @@ import { UserRepository } from 'src/user/user.repository';
 import { JwtOptionalStrategy } from 'src/common/strategies/jwt.optional.strategy';
 import { JwtStrategy } from 'src/common/strategies/jwt.strategy';
 import { JwtRefreshStrategy } from 'src/common/strategies/jwt,refresh.strategy';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { JwtRefreshStrategy } from 'src/common/strategies/jwt,refresh.strategy';
       signOptions: { expiresIn: '60s' },
     }),
     UserModule,
+    CommonModule,
   ],
   controllers: [AuthController],
   providers: [

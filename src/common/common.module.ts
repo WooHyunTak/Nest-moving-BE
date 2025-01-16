@@ -7,6 +7,8 @@ import { UserRepository } from 'src/user/user.repository';
 import { ConfirmedQuoteRepository } from 'src/confirmed-quote/confirmed-quote.repository';
 import { s3ClientProvider } from './providers/s3-client.provider';
 import { CommonService } from './common.service';
+import { NotificationService } from 'src/notification/notification.service';
+
 @Module({
   providers: [
     MoverRepository,
@@ -25,6 +27,7 @@ import { CommonService } from './common.service';
     MovingRequestRepository,
     ConfirmedQuoteRepository,
     CommonService,
+    PrismaService,
   ],
 })
 export class CommonModule {}

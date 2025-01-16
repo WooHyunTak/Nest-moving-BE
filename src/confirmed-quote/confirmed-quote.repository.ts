@@ -221,4 +221,50 @@ export class ConfirmedQuoteRepository {
       },
     });
   }
+
+  getAllByDay(date: Date) {
+    return this.prismaClient.confirmedQuote.findMany({
+      where: {
+        movingRequest: {
+          movingDate: date,
+        },
+      },
+      select: {
+        id: true,
+        movingRequest: {
+          select: {
+            service: true,
+            movingDate: true,
+            pickupAddress: true,
+            dropOffAddress: true,
+          },
+        },
+        customer: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        quote: {
+          select: {
+            id: true,
+          },
+        },
+        mover: {
+          select: {
+            user: {
+              select: {
+                id: true,
+              },
+            },
+            nickname: true,
+          },
+        },
+      },
+    });
+  }
 }

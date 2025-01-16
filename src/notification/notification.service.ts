@@ -3,12 +3,47 @@ import { NotificationRepository } from './notification.repository';
 import { QueryStringDto } from './dto/queryString.dto';
 import { CreateNotificationDto } from './dto/create.notification.dto';
 import { calculateTimeGap } from 'src/common/utills/timeGap';
+import { ConfirmedQuoteRepository } from 'src/confirmed-quote/confirmed-quote.repository';
+import { Cron } from '@nestjs/schedule';
+import { CronExpression } from '@nestjs/schedule';
+
+interface ConfirmedQuote {
+  id: number;
+  movingRequest: {
+    service: number;
+    movingDate: Date;
+    pickupAddress: string;
+    dropOffAddress: string;
+  };
+  customer: {
+    user: {
+      id: number;
+      name: string;
+    };
+  };
+  quote: {
+    id: number;
+  };
+  mover: {
+    user: {
+      id: number;
+    };
+    nickname: string;
+  };
+}
 
 @Injectable()
 export class NotificationService {
   constructor(
     private readonly notificationRepository: NotificationRepository,
+    private readonly confirmedQuoteRepository: ConfirmedQuoteRepository,
   ) {}
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async handleDailyNotification() {
+    console.log('자정 알림 스케줄 실행');
+    await this.initNotification();
+  }
 
   findNotifications = async (userId: number, query: QueryStringDto) => {
     const { limit, ...restQuery } = query;
@@ -43,4 +78,59 @@ export class NotificationService {
   isReadNotification = async (notificationId: number) => {
     return await this.notificationRepository.isReadNotification(notificationId);
   };
+
+  initNotification = async () => {
+    try {
+      const tomorrow = new Date();
+      tomorrow.setHours(0, 0, 0, 0);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const confirmedQuotes =
+        await this.confirmedQuoteRepository.getAllByDay(tomorrow);
+
+      for (const request of confirmedQuotes) {
+        const notificationType = this.setMessage(request);
+
+        this.notificationRepository.createManyNotification(notificationType);
+      }
+
+      console.log(
+        `${tomorrow.toISOString()} - 알림 발송 완료: ${confirmedQuotes.length}건`,
+      );
+    } catch (error) {
+      console.error('알림 발송 중 오류 발생:', error);
+    }
+  };
+
+  private async extractLocationInfo(address: string) {
+    // 시/도와 시/군/구를 추출하는 정규식
+    const match = address.match(/([가-힣]+)\s([가-힣]+시[가-힣]*)/);
+    if (!match) return address;
+
+    const province = match[1]; // 첫 번째 그룹 (시/도)
+    const city = match[2].replace(/시.*$/, ''); // 두 번째 그룹에서 '시' 이후 제거
+
+    return `${province}(${city})`;
+  }
+
+  private setMessage(confirmedQuote: ConfirmedQuote) {
+    const pickupLocation = this.extractLocationInfo(
+      confirmedQuote.movingRequest.pickupAddress,
+    );
+    const dropOffLocation = this.extractLocationInfo(
+      confirmedQuote.movingRequest.dropOffAddress,
+    );
+    return [
+      {
+        content: `내일은 ,${pickupLocation} → ${dropOffLocation} 이사 예정일,이에요.`,
+        isRead: false,
+        userId: confirmedQuote.mover.user.id,
+      },
+      {
+        content: `내일은 ,${pickupLocation} → ${dropOffLocation} 이사 예정일,이에요.`,
+        isRead: false,
+        userId: confirmedQuote.customer.user.id,
+      },
+    ];
+  }
 }
