@@ -15,7 +15,7 @@ import { TokenPayload } from 'src/common/dto/tokenPayload.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { NextFunction } from 'express';
 
-@Controller('notification')
+@Controller('notifications')
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 

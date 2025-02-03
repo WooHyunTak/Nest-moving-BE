@@ -18,7 +18,7 @@ import { CreateReviewDto } from './dto/create.review.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CommonService } from 'src/common/common.service';
 
-@Controller('review')
+@Controller('reviews')
 export class ReviewController {
   constructor(
     private readonly reviewService: ReviewService,

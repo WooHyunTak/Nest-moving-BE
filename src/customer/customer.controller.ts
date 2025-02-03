@@ -16,7 +16,7 @@ import { UpdateCustomerDto } from './dto/update.customer.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CommonService } from 'src/common/common.service';
 
-@Controller('customer')
+@Controller('customers')
 export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,

@@ -8,7 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UseGuards } from '@nestjs/common';
 import { CreateQuoteValidationPipe } from './pipes/create.validation.pipe';
 
-@Controller('quote')
+@Controller('quotes')
 export class QuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 

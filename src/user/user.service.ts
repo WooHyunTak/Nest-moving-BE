@@ -11,6 +11,38 @@ import { env } from 'src/common/config/env';
 import { UpdateUserDto } from './dto/update.user.dto';
 import bcrypt from 'bcrypt';
 
+interface CustomerResponse {
+  customer: {
+    id: number;
+    imageUrl: string | { imageUrl: string }[];
+    services: number[];
+    regions: number[];
+  };
+}
+
+interface MoverResponse {
+  mover: {
+    id: number;
+    imageUrl: string | { imageUrl: string }[];
+    services: number[];
+    regions: number[];
+    nickname: string;
+    career: number;
+    introduction: string;
+    description: string;
+  };
+}
+
+interface SocialUserResponse {
+  id: number;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  isOAuth: boolean;
+  mover: null;
+  customer: null;
+}
+
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -19,15 +51,25 @@ export class UserService {
     const userType = await this.userRepository.getUserType(userId);
 
     if (userType === 'customer') {
-      const response = await this.userRepository.getCustomer(userId);
-      const customer = response?.customer;
-      if (!customer?.imageUrl) {
-        customer.imageUrl = [{ imageUrl: env.DEFAULT_PROFILE_IMAGE }];
-      } else {
-        customer.imageUrl[0].imageUrl =
-          customer.imageUrl[0]?.imageUrl || env.DEFAULT_PROFILE_IMAGE;
+      const response = (await this.userRepository.getCustomer(
+        userId,
+      )) as CustomerResponse;
+      if (!response || !response.customer) {
+        throw new NotFoundException('고객 정보를 찾을 수 없습니다.');
       }
-      return response;
+
+      const customer = response.customer;
+
+      if (!customer.imageUrl || customer.imageUrl.length === 0) {
+        customer.imageUrl = env.DEFAULT_PROFILE_IMAGE;
+      } else {
+        customer.imageUrl =
+          typeof customer.imageUrl[0] === 'string'
+            ? customer.imageUrl[0]
+            : customer.imageUrl[0]?.imageUrl || env.DEFAULT_PROFILE_IMAGE;
+      }
+
+      return { ...response, customer };
     } else if (userType === 'mover') {
       const response = await this.userRepository.getMover(userId);
       const mover = response?.mover;

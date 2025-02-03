@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from 'src/common/dto/tokenPayload.dto';
 import { User } from 'src/common/decorators/user.decorator';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -25,7 +25,7 @@ export class UserController {
     try {
       const { id } = user;
       const userInfo = await this.userService.getUser(id);
-      return userInfo;
+      return { user: userInfo };
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }
