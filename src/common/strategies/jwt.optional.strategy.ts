@@ -27,6 +27,9 @@ export class JwtOptionalStrategy extends PassportStrategy(
   }
 
   async validate(payload: TokenPayload) {
+    if (!payload) {
+      return null;
+    }
     return payload;
   }
 }

@@ -86,10 +86,10 @@ export class MoverController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtOptionalGuard)
   async getMoverById(@Param('id') moverId: number, @User() user: TokenPayload) {
     let customerId: number | null = null;
-    if (user.customerId) {
+    if (user?.customerId) {
       customerId = user.customerId;
     }
     const movers = await this.moverService.getMoverDetail(customerId, moverId);

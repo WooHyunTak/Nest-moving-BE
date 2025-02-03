@@ -39,7 +39,7 @@ export class ReviewController {
     return customerReviewList;
   }
 
-  @Get(':id/mover-reviews')
+  @Get('mover/:id')
   async getMoverReviewList(
     @Param('id') moverId: number,
     @Query() query: OffsetQueryStringDto,
