@@ -13,16 +13,20 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         (request: Request) => {
           const token = request?.cookies['refresh_token'];
           if (!token) {
-            throw new UnauthorizedException('토큰이 존재하지 않습니다.');
+            return null;
           }
           return token;
         },
       ]),
+      ignoreExpiration: false,
       secretOrKey: env.JWT_SECRET,
     });
   }
 
   async validate(payload: TokenPayload) {
+    if (!payload) {
+      throw new UnauthorizedException('토큰이 존재하지 않습니다.');
+    }
     return payload;
   }
 }
