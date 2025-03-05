@@ -2,6 +2,8 @@
 
 이 프로젝트는 기존 **Express 기반의 백엔드**를 **NestJS**로 마이그레이션하고, 코드 리팩토링 및 기능 개선을 수행하는 데 중점을 둡니다.
 
+Origin repository url : https://github.com/codeit-moving/moving-be
+
 ## ✨ 주요 기능
 
 - 🏡 **고객**이 자신의 이사 정보를 등록할 수 있습니다.
