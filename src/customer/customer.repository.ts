@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create.customer.dto';
 import { UpdateCustomerDto } from './dto/update.customer.dto';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 
 interface CustomerProfile extends CreateCustomerDto {
   userId: number;

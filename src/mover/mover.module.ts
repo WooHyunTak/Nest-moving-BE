@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MoverService } from './mover.service';
 import { MoverController } from './mover.controller';
 import { MoverRepository } from './mover.repository';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { CommonModule } from 'src/common/common.module';
 
 @Module({

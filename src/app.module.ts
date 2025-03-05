@@ -11,7 +11,7 @@ import { NotificationModule } from './notification/notification.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { env } from 'process';
-import { JwtStrategy } from './common/strategies/jwt.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { CustomerModule } from './customer/customer.module';
 import { ConfirmedQuoteModule } from './confirmed-quote/confirmed-quote.module';
 import { ReviewModule } from './review/review.module';

@@ -1,20 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { env } from 'src/common/config/env';
-import { TokenPayload } from '../dto/tokenPayload.dto';
+import { TokenPayload } from 'src/common/dto/tokenPayload.dto';
 import { Request } from 'express';
 
 @Injectable()
-export class JwtOptionalStrategy extends PassportStrategy(
-  Strategy,
-  'jwt-optional',
-) {
+export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          const token = request?.cookies['access_token'];
+          const token = request?.cookies['refresh_token'];
           if (!token) {
             return null;
           }
@@ -28,7 +25,7 @@ export class JwtOptionalStrategy extends PassportStrategy(
 
   async validate(payload: TokenPayload) {
     if (!payload) {
-      return null;
+      throw new UnauthorizedException('토큰이 존재하지 않습니다.');
     }
     return payload;
   }

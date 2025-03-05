@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { WhereConditions } from './dto/whereConditions';
 import { MoverProfile } from './dto/moverProfile';
 import { UpdateMoverDto } from './dto/update.mover.dto';

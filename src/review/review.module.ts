@@ -3,7 +3,7 @@ import { ReviewService } from './review.service';
 import { ReviewController } from './review.controller';
 import { CommonModule } from 'src/common/common.module';
 import { ReviewRepository } from './review.repository';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 
 @Module({
   imports: [CommonModule],

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { CreateMovingRequestDto } from './dto/create-moving-request.dto';
 import { QueryStringDto } from './dto/queryString.dto';
 import { WhereConditionDto } from './dto/whereCondition.dto';

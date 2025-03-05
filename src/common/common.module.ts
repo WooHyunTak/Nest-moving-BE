@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MoverRepository } from 'src/mover/mover.repository';
 import { MovingRequestRepository } from 'src/moving-request/moving-request.repository';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { QuoteRepository } from 'src/quote/quote.repository';
 import { UserRepository } from 'src/user/user.repository';
 import { ConfirmedQuoteRepository } from 'src/confirmed-quote/confirmed-quote.repository';

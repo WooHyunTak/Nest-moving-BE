@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { CreateReviewDto } from './dto/create.review.dto';
 import { OffsetQueryStringDto } from './dto/queryString.dto';
 interface CreateReviewInput extends CreateReviewDto {

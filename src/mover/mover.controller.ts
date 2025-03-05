@@ -18,7 +18,7 @@ import { QueryString } from './dto/queryString.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { TokenPayload } from 'src/common/dto/tokenPayload.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtOptionalGuard } from 'src/common/guards/jwt.optional.guard';
+import { JwtOptionalGuard } from 'src/auth/guards/jwt.optional.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CommonService } from 'src/common/common.service';
 

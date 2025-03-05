@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { CreateQuoteDto } from './dto/create.quote.dto';
 import { Injectable } from '@nestjs/common';
 
